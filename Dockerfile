@@ -1,7 +1,9 @@
-FROM nginx:stable-alpine
+FROM node:20-alpine
 
-# copiar archivos index y styles
-COPY ./dist/ /usr/share/nginx/html/
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --omit=dev
+COPY ./dist ./dist
 
-EXPOSE 80
-CMD [ "nginx", "-g","daemon off;"]
+EXPOSE 3000
+CMD [ "node", "/main.js"]
